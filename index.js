@@ -73,6 +73,17 @@ app.get('/portfolio', async (req, res) => {
   }
 });
 
+let statsData = {
+  experience: "3yr+",
+  clients: "120+",
+  countries: "20+",
+  projects: "220+",
+};
+
+app.get("/stats", (req, res) => {
+  res.json(statsData);
+});
+
 // app.listen(port, () => {
 //   console.log(`Example app listening on port ${port}`)
 // })
