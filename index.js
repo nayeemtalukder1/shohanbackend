@@ -23,8 +23,8 @@ async function run() {
     await client.connect();
 
 
-    const database = client.db("shohanur");
-    const portfoliosCollection = database.collection("portfolio");
+    database = client.db("shohanur");
+    portfoliosCollection = database.collection("portfolio");
 
     app.get('/portfolio', async (req, res) => {
       const cursor = portfoliosCollection.find({});
