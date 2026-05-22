@@ -80,7 +80,7 @@ app.get("/stats", async (req, res) => {
   try {
     await connectDB();
 
-    const statsData = await statsData.find({}).toArray();
+    statsData = await statsData.find({}).toArray();
     res.json(statsData);
   } catch (error) {
     res.status(500).send(error.message);
