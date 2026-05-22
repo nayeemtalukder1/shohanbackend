@@ -80,12 +80,14 @@ app.get("/stats", async (req, res) => {
   try {
     await connectDB();
 
-    statsData = await statsData.find({}).toArray();
-    res.json(statsData);
+    const result = await statsData.findOne({});
+    res.json(result);
+
   } catch (error) {
     res.status(500).send(error.message);
   }
 });
+
 
 // app.listen(port, () => {
 //   console.log(`Example app listening on port ${port}`)
