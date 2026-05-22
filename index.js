@@ -41,7 +41,7 @@ const client = new MongoClient(uri, {
 // }
 // run().catch(console.dir);
 
-let database, portfoliosCollection;
+let database, portfoliosCollection, statsData;
 
 // connect once
 async function connectDB() {
@@ -50,6 +50,8 @@ async function connectDB() {
 
     database = client.db("shohanur");
     portfoliosCollection = database.collection("portfolio");
+    statsData = database.collection("statsData");
+
 
     console.log("✅ MongoDB Connected");
   }
@@ -73,15 +75,16 @@ app.get('/portfolio', async (req, res) => {
   }
 });
 
-let statsData = {
-  experience: "3yr+",
-  clients: "120+",
-  countries: "20+",
-  projects: "220+",
-};
 
-app.get("/stats", (req, res) => {
-  res.json(statsData);
+app.get("/stats", async (req, res) => {
+  try {
+    await connectDB();
+
+    const statsData = await statsData.find({}).toArray();
+    res.json(statsData);
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
 });
 
 // app.listen(port, () => {
