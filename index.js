@@ -87,7 +87,37 @@ app.get("/stats", async (req, res) => {
     res.status(500).send(error.message);
   }
 });
+app.patch("/stats", async (req, res) => {
+  try {
+    await connectDB();
 
+    // frontend থেকে যেই data আসবে
+    const updateData = req.body;
+
+    // MongoDB update
+    const result = await statsData.updateOne(
+      { _id: "stats" }, // fixed document
+      {
+        $set: updateData,
+      },
+      {
+        upsert: true, // document না থাকলে create করবে
+      }
+    );
+
+    res.status(200).json({
+      success: true,
+      message: "Stats updated successfully",
+      result,
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: error.message,
+    });
+  }
+});
 
 // app.listen(port, () => {
 //   console.log(`Example app listening on port ${port}`)
